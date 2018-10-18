@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="unity-plugin-library4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Assets/Plugins/Android/GoogleMobileAdsPlugin/libs/unity-plugin-library.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

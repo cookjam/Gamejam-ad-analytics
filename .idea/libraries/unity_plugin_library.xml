@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="unity-plugin-library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Temp/gradleOut/GoogleMobileAdsPlugin/build/intermediates/jniLibs/debug/unity-plugin-library.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

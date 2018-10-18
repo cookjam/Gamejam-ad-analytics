@@ -24,14 +24,16 @@ public class AdMobManager : MonoBehaviour {
 	private RewardBasedVideoAd rewardAd;
 	private BannerView bannerAd;
 	
-	public delegate void RewardCallback(string type, float reward);
+	private bool bannerLoaded;
+
+	public delegate void RewardCallback(float reward);
 
 	private RewardCallback rewardComplete;
-	private RewardCallback rewardFail;
-	
+	private Reward reward;
+
 	void Awake() {
-        DontDestroyOnLoad(transform.gameObject);
-		if(Instance) return;
+        DontDestroyOnLoad(this.gameObject);
+		if (Instance) return;
 		Instance = this;
     }
 	void Start () {
@@ -41,96 +43,165 @@ public class AdMobManager : MonoBehaviour {
 		this.loadReward();
 	}
 	private void loadBanner() {
-		if(this.bannerIdAndroid == null) return;
-		AdRequest req = new AdRequest.Builder().Build();
+		if (this.bannerIdAndroid == null) return;
+		Debug.Log("loadBanner");
+		this.sendAppEvent("ca_ad_banner_requested");
+		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
 		this.bannerAd = new BannerView(this.bannerIdAndroid, AdSize.SmartBanner, AdPosition.Top);
 		this.bannerAd.LoadAd(req);
+		this.bannerAd.OnAdLoaded += onLoadBanner;
 		this.bannerAd.Hide();
+		this.bannerLoaded = false;
 	}	
-	private void loadInterstitial() {
-		if(this.interstitialIdAndroid == null) return;
-		AdRequest req = new AdRequest.Builder().Build();
-		this.interstitialAd = new InterstitialAd(this.interstitialIdAndroid);
-		this.interstitialAd.LoadAd(req);
-	}
-	private void loadReward() {
-		if(this.rewardIdAndroid == null) return;
-		AdRequest req = new AdRequest.Builder().Build();
-		this.rewardAd = RewardBasedVideoAd.Instance;
-		this.rewardAd.LoadAd(req, this.rewardIdAndroid);
-	}
-
 	
-	private void showBanner() {
-		if(this.bannerAd == null) return;
+	public void showBanner() {
+		if (!this.isBannerLoaded()) return;
+		Debug.Log("showBanner");
+		this.sendAppEvent("ca_ad_banner_initiated");
+		this.sendAppEvent("ca_ad_banner_impression");
 		this.bannerAd.OnAdOpening += this.onClickBanner;
 		this.bannerAd.Show();
 	}
 
+	private void onLoadBanner(object sender, EventArgs args) {
+		Debug.Log("onLoadBanner");
+		this.bannerAd.OnAdLoaded -= this.onLoadBanner;
+		this.bannerLoaded = true;
+	}
+
 	private void onClickBanner(object sender, EventArgs args) {
-		//트래킹 남기기
+		Debug.Log("onClickBanner");
+		this.sendAppEvent("ca_ad_banner_click");
 	}
 
 	private void hideBanner() {
-		if(this.bannerAd == null) return;
+		if (!this.isBannerLoaded()) return;
+		Debug.Log("hideBanner");
+		this.bannerAd.OnAdLoaded -= this.onLoadBanner;
 		this.bannerAd.OnAdOpening -= this.onClickBanner;
 		this.bannerAd.Hide();
 	}
 
+	private bool isBannerLoaded() {
+		if (this.bannerAd == null) return false;
+		if (this.bannerLoaded == false) return false;
+		return true;
+	}
 
 
-	private void showInterstitial() {
-		if(this.interstitialAd == null) return;
-		if(!this.interstitialAd.IsLoaded()) return;
+
+
+	private void loadInterstitial() {
+		if (this.interstitialIdAndroid == null) return;
+		Debug.Log("loadInterstitial");
+		this.sendAppEvent("ca_ad_is_requested");	
+		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
+		this.interstitialAd = new InterstitialAd(this.interstitialIdAndroid);
+		this.interstitialAd.LoadAd(req);
+	}
+
+	public void showInterstitial() {
+		if (!this.isInterstitialLoaded()) return;
+		Debug.Log("showInterstitial");
+		this.sendAppEvent("ca_ad_is_initiated");
+		this.sendAppEvent("ca_ad_is_impression");
 		this.interstitialAd.OnAdClosed += this.onCloseInterstitial;
 		this.interstitialAd.OnAdLeavingApplication += this.onClickInterstitial;
 		this.interstitialAd.Show();
 	}
 
 	private void onClickInterstitial(object sender, EventArgs args) {
-		this.interstitialAd.OnAdClosed -= this.onClickInterstitial;
-		this.interstitialAd.Destroy();
-		this.loadInterstitial();
-		//트래킹 남기기
+		Debug.Log("onClickInterstitial");
+		this.sendAppEvent("ca_ad_is_click");
+		this.resetInterstitial();
 	}
 
 	private void onCloseInterstitial(object sender, EventArgs args) {
-		this.interstitialAd.OnAdClosed -= this.onCloseInterstitial;
+		Debug.Log("onCloseInterstitial");
+		this.sendAppEvent("ca_ad_is_exit");
+		this.resetInterstitial();
+	}
+
+	public void resetInterstitial() {
+		this.interstitialAd.OnAdClosed -= this.onClickInterstitial;
 		this.interstitialAd.Destroy();
 		this.loadInterstitial();
 	}
 
+	private bool isInterstitialLoaded() {
+		if (this.interstitialAd == null) return false;
+		if (!this.interstitialAd.IsLoaded()) return false;
+		return true;
+	}
 
 
-	private void showReward(RewardCallback onComplete, RewardCallback onFail) {
-		if(this.rewardAd == null || !this.rewardAd.IsLoaded()) {
-			onFail("fail", 0);
+
+	private void loadReward() {
+		if (this.rewardIdAndroid == null) return;
+		Debug.Log("loadReward");
+		this.sendAppEvent("ca_ad_rv_requested");
+		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
+		this.rewardAd = RewardBasedVideoAd.Instance;
+		this.rewardAd.LoadAd(req, this.rewardIdAndroid);
+	}
+
+	public void showReward(RewardCallback onComplete) {
+		if (!this.isRewardLoaded()) {
+			if (onComplete != null) onComplete(0);
 			return;
 		}
+		Debug.Log("showReward");
+		this.sendAppEvent("ca_ad_rv_initiated");
+		this.sendAppEvent("ca_ad_rv_impression");
 		this.rewardComplete = onComplete;
-		this.rewardFail = onFail;
 		this.rewardAd.OnAdClosed += this.onCloseReward;
 		this.rewardAd.OnAdRewarded += this.onCompleteReward;
+		this.rewardAd.OnAdLeavingApplication += this.onClickReward;
 		this.rewardAd.Show();
+		this.reward = null;
+	}
+
+	private void onClickReward(object sender, EventArgs args) {
+		Debug.Log("onCompleteReward");
+		this.sendAppEvent("ca_ad_rv_click");
 	}
 
 	private void onCloseReward(object sender, EventArgs args) {
-		this.rewardComplete = null;
-		this.rewardFail = null;
-		this.rewardAd.OnAdClosed -= this.onCloseReward;
-		this.rewardAd.OnAdRewarded -= this.onCompleteReward;
-		this.rewardFail("fail", 0);
-		this.loadReward();
+		Debug.Log("onCloseReward");
+		Debug.Log(this.reward);
+		if (this.rewardComplete != null) {
+			if (this.reward != null) this.rewardComplete((float)this.reward.Amount);
+			else this.rewardComplete(0);
+		}
+		this.resetReward();
 	}
 
 	private void onCompleteReward(object sender, Reward args) {
+		Debug.Log("onCompleteReward");
+		this.sendAppEvent("ca_ad_rv_completed");
+		this.reward = args;
+	}
+
+	public void resetReward() {
+		Debug.Log("resetReward");
 		this.rewardComplete = null;
-		this.rewardFail = null;
 		this.rewardAd.OnAdClosed -= this.onCloseReward;
 		this.rewardAd.OnAdRewarded -= this.onCompleteReward;
-		this.rewardComplete(args.Type, (float)args.Amount);
+		this.rewardAd.OnAdLeavingApplication -= this.onClickReward;
+		this.reward = null;
 		this.loadReward();
-		//트래킹 남기기
+	}
+
+	private bool isRewardLoaded() {
+		if (this.rewardAd == null) return false;
+		if (!this.rewardAd.IsLoaded()) return false;
+		return true;
+	}
+
+
+	private void sendAppEvent(string name) {
+		Debug.Log("Firebase AppEvent : " + name);
+		Firebase.Analytics.FirebaseAnalytics.LogEvent(name);
 	}
 
 
@@ -147,9 +218,19 @@ public class AdMobManager : MonoBehaviour {
 		Instance.showInterstitial();
 	}
 	
-	public static void ShowReward(RewardCallback onComplete, RewardCallback onFail) {
-		Instance.showReward(onComplete, onFail);
+	public static void ShowReward(RewardCallback onComplete = null) {
+		Instance.showReward(onComplete);
 	}
 
-	
+	public static bool IsBannerLoaded() {
+		return Instance.isBannerLoaded();
+	}
+
+	public static bool IsInterstitialLoaded() {
+		return Instance.isInterstitialLoaded();
+	}
+
+	public static bool IsRewardLoaded() {
+		return Instance.isRewardLoaded();
+	}
 }
