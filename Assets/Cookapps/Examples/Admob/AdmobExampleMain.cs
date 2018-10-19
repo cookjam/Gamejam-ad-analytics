@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase;
 using UnityEngine.UI;
-using GoogleMobileAds.Api;
+using Cookapps.Ads;
 
-
-public class Main : MonoBehaviour {
+public class AdmobExampleMain : MonoBehaviour {
 
 	public Button interstitialBtn;
 	public Button bannerShowBtn;
@@ -23,19 +21,19 @@ public class Main : MonoBehaviour {
 	
 	
 	private void onClickShowBanner() {
-		if (AdMobManager.IsBannerLoaded()) AdMobManager.ShowBanner();
+		if (AdmobManager.IsBannerLoaded()) AdmobManager.ShowBanner();
 	}
 
 	private void onClickHideBanner() {
-		if (AdMobManager.IsBannerLoaded()) AdMobManager.HideBanner();
+		if (AdmobManager.IsBannerLoaded()) AdmobManager.HideBanner();
 	}
 
 	private void onClickInterstitial() {
-		if (AdMobManager.IsInterstitialLoaded()) AdMobManager.ShowInterstitial();
+		if (AdmobManager.IsInterstitialLoaded()) AdmobManager.ShowInterstitial();
 	}
 
 	private void onClickReward() {
-		if (AdMobManager.IsRewardLoaded()) AdMobManager.ShowReward(this.onRewardResult);
+		if (AdmobManager.IsRewardLoaded()) AdmobManager.ShowReward(this.onRewardResult);
 	}
 
 	private void onRewardResult(float reward) {

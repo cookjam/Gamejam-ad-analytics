@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-using Firebase;
+using Cookapps.Analytics;
 using GoogleMobileAds.Api;
 
-public class AdMobManager : MonoBehaviour {
+namespace Cookapps.Ads {
 
-	public static AdMobManager Instance; 
+public class AdmobManager : MonoBehaviour {
+
+	public static AdmobManager Instance; 
 	public string appIdAndroid;
 	// private string appIdIOS;
 	public string bannerIdAndroid;
@@ -37,13 +39,14 @@ public class AdMobManager : MonoBehaviour {
 		Instance = this;
     }
 	void Start () {
+		if(this.appIdAndroid == "") return;
 		MobileAds.Initialize(this.appIdAndroid);
 		this.loadBanner();
 		this.loadInterstitial();
 		this.loadReward();
 	}
 	private void loadBanner() {
-		if (this.bannerIdAndroid == null) return;
+		if (this.bannerIdAndroid == "") return;
 		Debug.Log("loadBanner");
 		this.sendAppEvent("ca_ad_banner_requested");
 		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
@@ -54,11 +57,13 @@ public class AdMobManager : MonoBehaviour {
 		this.bannerLoaded = false;
 	}	
 	
-	public void showBanner() {
+	public void showBanner(string position) {
 		if (!this.isBannerLoaded()) return;
 		Debug.Log("showBanner");
 		this.sendAppEvent("ca_ad_banner_initiated");
 		this.sendAppEvent("ca_ad_banner_impression");
+		if(position == "top") this.bannerAd.SetPosition(AdPosition.Top);
+		else this.bannerAd.SetPosition(AdPosition.Bottom);
 		this.bannerAd.OnAdOpening += this.onClickBanner;
 		this.bannerAd.Show();
 	}
@@ -92,7 +97,7 @@ public class AdMobManager : MonoBehaviour {
 
 
 	private void loadInterstitial() {
-		if (this.interstitialIdAndroid == null) return;
+		if (this.interstitialIdAndroid == "") return;
 		Debug.Log("loadInterstitial");
 		this.sendAppEvent("ca_ad_is_requested");	
 		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
@@ -137,7 +142,7 @@ public class AdMobManager : MonoBehaviour {
 
 
 	private void loadReward() {
-		if (this.rewardIdAndroid == null) return;
+		if (this.rewardIdAndroid == "") return;
 		Debug.Log("loadReward");
 		this.sendAppEvent("ca_ad_rv_requested");
 		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
@@ -200,14 +205,13 @@ public class AdMobManager : MonoBehaviour {
 
 
 	private void sendAppEvent(string name) {
-		Debug.Log("Firebase AppEvent : " + name);
-		Firebase.Analytics.FirebaseAnalytics.LogEvent(name);
+		AppEventManager.sendAppEvent(name);
 	}
 
 
 
-	public static void ShowBanner() {
-		Instance.showBanner();
+	public static void ShowBanner(string position = "top") {
+		Instance.showBanner(position);
 	}
 
 	public static void HideBanner() {
@@ -233,4 +237,5 @@ public class AdMobManager : MonoBehaviour {
 	public static bool IsRewardLoaded() {
 		return Instance.isRewardLoaded();
 	}
+}
 }

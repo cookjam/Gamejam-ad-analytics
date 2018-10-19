@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -253,7 +253,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 534669904}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 90.5
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -447,7 +447,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 534669902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0cb7709bab6177409b9f8447d496699, type: 3}
+  m_Script: {fileID: 11500000, guid: b1d6994324d82074eac19fa194650641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interstitialBtn: {fileID: 821591164}
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 534669902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48f68505b7d23d74aa556b26827f4df8, type: 3}
+  m_Script: {fileID: 11500000, guid: bf43b26fedab29b49acc95118bc95041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   appIdAndroid: ca-app-pub-3940256099942544~3347511713
