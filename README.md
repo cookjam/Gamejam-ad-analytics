@@ -1,2 +1,2 @@
-# module-1st
-1회 게임잼 모듈
+# Gamejam-ad-analytics
+광고, 통계 모듈
