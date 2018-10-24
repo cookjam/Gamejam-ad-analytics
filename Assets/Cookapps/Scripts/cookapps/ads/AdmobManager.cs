@@ -40,7 +40,6 @@ public class AdmobManager : MonoBehaviour {
         DontDestroyOnLoad(this.gameObject);
     }
 	void Start () {
-		if(this.appIdAndroid == "") return;
 		if (Instance) return;
 		Instance = this;
 		
@@ -51,6 +50,7 @@ public class AdmobManager : MonoBehaviour {
 	}
 
 	private void init() {
+		if(this.appIdAndroid == "") return;
 		if (this.testMode) {
 			Debug.Log("Run Admob TestMode");
 			this.appIdAndroid = "ca-app-pub-3940256099942544~3347511713";
@@ -65,7 +65,7 @@ public class AdmobManager : MonoBehaviour {
 		if (this.bannerIdAndroid == "") return;
 		Debug.Log("loadBanner");
 		this.sendAppEvent("ca_ad_banner_requested");
-		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
+		AdRequest req = new AdRequest.Builder().Build();
 		this.bannerAd = new BannerView(this.bannerIdAndroid, AdSize.SmartBanner, AdPosition.Top);
 		this.bannerAd.LoadAd(req);
 		this.bannerAd.OnAdLoaded += onLoadBanner;
@@ -116,7 +116,7 @@ public class AdmobManager : MonoBehaviour {
 		if (this.interstitialIdAndroid == "") return;
 		Debug.Log("loadInterstitial");
 		this.sendAppEvent("ca_ad_is_requested");	
-		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
+		AdRequest req = new AdRequest.Builder().Build();
 		this.interstitialAd = new InterstitialAd(this.interstitialIdAndroid);
 		this.interstitialAd.LoadAd(req);
 	}
@@ -161,7 +161,7 @@ public class AdmobManager : MonoBehaviour {
 		if (this.rewardIdAndroid == "") return;
 		Debug.Log("loadReward");
 		this.sendAppEvent("ca_ad_rv_requested");
-		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
+		AdRequest req = new AdRequest.Builder().Build();
 		this.rewardAd = RewardBasedVideoAd.Instance;
 		this.rewardAd.OnAdFailedToLoad += this.onFailReward;
 		this.rewardAd.LoadAd(req, this.rewardIdAndroid);

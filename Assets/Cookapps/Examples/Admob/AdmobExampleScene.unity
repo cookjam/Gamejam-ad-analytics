@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -465,11 +465,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf43b26fedab29b49acc95118bc95041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appIdAndroid: ca-app-pub-3940256099942544~3347511713
-  bannerIdAndroid: ca-app-pub-3940256099942544/6300978111
-  interstitialIdAndroid: ca-app-pub-3940256099942544/1033173712
-  rewardIdAndroid: ca-app-pub-3940256099942544/5224354917
-  testMode: 1
+  appIdAndroid: ca-app-pub-6582256874294334~2720728690
+  bannerIdAndroid: ca-app-pub-6582256874294334/2501236847
+  interstitialIdAndroid: ca-app-pub-6582256874294334/2021766836
+  rewardIdAndroid: ca-app-pub-6582256874294334/3319494494
+  testMode: 0
 --- !u!1 &724254653
 GameObject:
   m_ObjectHideFlags: 0
