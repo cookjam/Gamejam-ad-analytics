@@ -147,8 +147,15 @@ public class AdmobManager : MonoBehaviour {
 		this.sendAppEvent("ca_ad_rv_requested");
 		AdRequest req = new AdRequest.Builder().TagForChildDirectedTreatment(true).Build();
 		this.rewardAd = RewardBasedVideoAd.Instance;
+		this.rewardAd.OnAdFailedToLoad += this.onFailReward;
 		this.rewardAd.LoadAd(req, this.rewardIdAndroid);
 	}
+
+	private void onFailReward (object sender, AdFailedToLoadEventArgs args)
+    {
+		Debug.Log("onFailReward");
+        Debug.Log(args.Message);
+    }
 
 	public void showReward(RewardCallback onComplete) {
 		if (!this.isRewardLoaded()) {
@@ -167,7 +174,7 @@ public class AdmobManager : MonoBehaviour {
 	}
 
 	private void onClickReward(object sender, EventArgs args) {
-		Debug.Log("onCompleteReward");
+		Debug.Log("onClickReward");
 		this.sendAppEvent("ca_ad_rv_click");
 	}
 

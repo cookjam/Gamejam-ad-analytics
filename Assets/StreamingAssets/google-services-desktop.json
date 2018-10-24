@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "1050213464990",
-    "firebase_url": "https://gamejam-module-test.firebaseio.com",
-    "project_id": "gamejam-module-test",
-    "storage_bucket": "gamejam-module-test.appspot.com"
+    "project_number": "938842419945",
+    "firebase_url": "https://maidraid-cookapps.firebaseio.com",
+    "project_id": "maidraid-cookapps",
+    "storage_bucket": "maidraid-cookapps.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1050213464990:android:562272012acaa5a8",
+        "mobilesdk_app_id": "1:938842419945:android:b13c96aa59b7638e",
         "android_client_info": {
-          "package_name": "com.cookapps.gamejamModuleTest"
+          "package_name": "com.cookapps.maidraid"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1050213464990-ceqd299q80dj22lmounvhcsvv07iih47.apps.googleusercontent.com",
+          "client_id": "938842419945-n98d4qm5kajeirihooap2403j561cg30.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cookapps.maidraid",
+            "certificate_hash": "67d7a077b3a05c0720313ce9e80d18680792baae"
+          }
+        },
+        {
+          "client_id": "938842419945-f23hgv3s9ua4fio9uc2ianl2hvgmruk8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAjSewMwmlxPIxTWiLm4ZjP98mx1_zRxSU"
+          "current_key": "AIzaSyB1djp9CPTTYlMgbUbIEteu-SmwRRy5M6Q"
         }
       ],
       "services": {
@@ -29,11 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938842419945-f23hgv3s9ua4fio9uc2ianl2hvgmruk8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
