@@ -465,10 +465,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf43b26fedab29b49acc95118bc95041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appIdAndroid: ca-app-pub-6582256874294334~1536898710
-  bannerIdAndroid: ca-app-pub-6582256874294334/5093000344
-  interstitialIdAndroid: ca-app-pub-6582256874294334/3588346987
-  rewardIdAndroid: ca-app-pub-6582256874294334/9770611959
+  appIdAndroid: ca-app-pub-3940256099942544~3347511713
+  bannerIdAndroid: ca-app-pub-3940256099942544/6300978111
+  interstitialIdAndroid: ca-app-pub-3940256099942544/1033173712
+  rewardIdAndroid: ca-app-pub-3940256099942544/5224354917
+  testMode: 1
 --- !u!1 &724254653
 GameObject:
   m_ObjectHideFlags: 0

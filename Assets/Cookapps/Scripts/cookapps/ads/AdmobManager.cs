@@ -33,18 +33,34 @@ public class AdmobManager : MonoBehaviour {
 	private RewardCallback rewardComplete;
 	private Reward reward;
 
+	public bool testMode = false;
+
+
 	void Awake() {
         DontDestroyOnLoad(this.gameObject);
-		if (Instance) return;
-		Instance = this;
     }
 	void Start () {
 		if(this.appIdAndroid == "") return;
-		MobileAds.Initialize(this.appIdAndroid);
+		if (Instance) return;
+		Instance = this;
+		
+		this.init();
 		this.loadBanner();
 		this.loadInterstitial();
 		this.loadReward();
 	}
+
+	private void init() {
+		if (this.testMode) {
+			Debug.Log("Run Admob TestMode");
+			this.appIdAndroid = "ca-app-pub-3940256099942544~3347511713";
+			this.bannerIdAndroid = "ca-app-pub-3940256099942544/6300978111";
+			this.interstitialIdAndroid = "ca-app-pub-3940256099942544/1033173712";
+			this.rewardIdAndroid = "ca-app-pub-3940256099942544/5224354917";
+		}
+		MobileAds.Initialize(this.appIdAndroid);
+	}
+
 	private void loadBanner() {
 		if (this.bannerIdAndroid == "") return;
 		Debug.Log("loadBanner");
@@ -155,6 +171,8 @@ public class AdmobManager : MonoBehaviour {
     {
 		Debug.Log("onFailReward");
         Debug.Log(args.Message);
+		this.rewardAd.OnAdFailedToLoad -= this.onFailReward;
+		Invoke("resetReward", 10);
     }
 
 	public void showReward(RewardCallback onComplete) {
